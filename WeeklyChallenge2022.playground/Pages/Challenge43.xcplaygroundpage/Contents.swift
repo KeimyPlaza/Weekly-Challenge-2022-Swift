@@ -35,3 +35,38 @@ import Foundation
  *   https://retosdeprogramacion.com/semanales2022.
  *
  */
+
+struct Child {
+    var name: String
+    var birth: Int
+    var size: Int
+}
+
+let child = [Child(name: "Pedro", birth: 9, size: 100), Child(name: "Susana", birth: 12, size: 124)]
+
+let sustos = ["🎃", "👻", "💀", "🕷", "🕸", "🦇"]
+let dulces = ["🍰", "🍬", "🍡", "🍭", "🍪", "🍫", "🧁", "🍩"]
+
+child.forEach({ child in
+    print("\(child.name) \(child.birth) años \(child.size)cm")
+})
+
+let totalPerson = child.count
+
+if totalPerson < sustos.count {
+    print("Sustos:")
+    
+    (0...totalPerson).forEach { idx in
+        let rnd_sustos = Int.random(in: 0..<sustos.count)
+        print(sustos[rnd_sustos])
+    }
+}
+
+if totalPerson < dulces.count {
+    print("Dulces: ")
+    
+    (0...totalPerson).forEach { idx in
+        let rnd_dulces = Int.random(in: 0..<dulces.count)
+        print(dulces[rnd_dulces])
+    }
+}
