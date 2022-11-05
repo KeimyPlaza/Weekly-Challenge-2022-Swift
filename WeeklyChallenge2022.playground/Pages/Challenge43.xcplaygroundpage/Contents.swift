@@ -36,37 +36,84 @@ import Foundation
  *
  */
 
-struct Child {
-    var name: String
-    var birth: Int
-    var size: Int
+enum Halloween {
+    case trick, treat
 }
 
-let child = [Child(name: "Pedro", birth: 9, size: 100), Child(name: "Susana", birth: 12, size: 124)]
+struct Person {
+    let name: String
+    let age: Int
+    let height: Int
+}
 
-let sustos = ["🎃", "👻", "💀", "🕷", "🕸", "🦇"]
-let dulces = ["🍰", "🍬", "🍡", "🍭", "🍪", "🍫", "🧁", "🍩"]
+func trickOrTreat(halloween: Halloween, people: [Person]) -> String {
 
-child.forEach({ child in
-    print("\(child.name) \(child.birth) años \(child.size)cm")
-})
+    let scares = ["🎃", "👻", "💀", "🕷", "🕸", "🦇"]
+    let candies = ["🍰", "🍬", "🍡", "🍭", "🍪", "🍫", "🧁", "🍩"]
 
-let totalPerson = child.count
-
-if totalPerson < sustos.count {
-    print("Sustos:")
+    var result = ""
+    var height = 0
     
-    (0...totalPerson).forEach { idx in
-        let rnd_sustos = Int.random(in: 0..<sustos.count)
-        print(sustos[rnd_sustos])
+    people.forEach { person in
+
+        switch halloween {
+        case .trick:
+            
+            // Name
+            (1...(person.name.replacingOccurrences(of: " ", with: "").count / 2)).forEach { _ in
+                result += scares.randomElement() ?? ""
+            }
+
+            // Age
+            if person.age % 2 == 0 {
+                result += scares.randomElement() ?? ""
+                result += scares.randomElement() ?? ""
+            }
+
+            // Height
+            height += person.height
+            while height >= 100 {
+                result += scares.randomElement() ?? ""
+                result += scares.randomElement() ?? ""
+                result += scares.randomElement() ?? ""
+                height -= 100
+            }
+            
+        case .treat:
+            
+            // Name
+            (1...(person.name.replacingOccurrences(of: " ", with: "").count)).forEach { _ in
+                result += candies.randomElement() ?? ""
+            }
+
+            // Age
+            if person.age <= 10 {
+                (1...(person.age / 3)).forEach { _ in
+                    result += candies.randomElement() ?? ""
+                }
+            }
+
+            // Height
+            if person.height <= 150 {
+                (1...(person.height / 50)).forEach { _ in
+                    result += candies.randomElement() ?? ""
+                    result += candies.randomElement() ?? ""
+                }
+            }
+        }
     }
+
+    return result
 }
 
-if totalPerson < dulces.count {
-    print("Dulces: ")
-    
-    (0...totalPerson).forEach { idx in
-        let rnd_dulces = Int.random(in: 0..<dulces.count)
-        print(dulces[rnd_dulces])
-    }
-}
+print(trickOrTreat(halloween: .trick, people: [
+    Person(name: "Brais", age: 35, height: 177),
+    Person(name: "Sara", age: 9, height: 122),
+    Person(name: "Pedro", age: 5, height: 80),
+    Person(name: "Roswell", age: 3, height: 54)]))
+
+print(trickOrTreat(halloween: .treat, people: [
+    Person(name: "Brais", age: 35, height: 177),
+    Person(name: "Sara", age: 9, height: 122),
+    Person(name: "Pedro", age: 5, height: 80),
+    Person(name: "Roswell", age: 3, height: 54)]))
